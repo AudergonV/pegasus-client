@@ -1,60 +1,111 @@
 <template>
   <v-app>
-    <v-app-bar
+    <v-navigation-drawer
+      v-if="!hide"
+      v-model="drawer"
+      class="primary"
+      enable-resize-watcher
       app
-      color="primary"
-      dark
+      :clipped="clipped"
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <v-list dense nav class="py-0" >
+        <v-list-item two-line>
+          <v-list-item-avatar>
+            <img src="./assets/default-avatar.jpg" />
+          </v-list-item-avatar>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+          <v-list-item-content>
+            <v-list-item-title>Foxyou</v-list-item-title>
+            <v-list-item-subtitle>Superadmin</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
 
-      <v-spacer></v-spacer>
+        <v-divider></v-divider>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+        <v-list-item to="/">
+          <v-list-item-icon>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('menu.home') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item to="/profile">
+          <v-list-item-icon>
+            <v-icon>mdi-account</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('menu.profile') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/settings">
+          <v-list-item-icon>
+            <v-icon>mdi-cogs</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('menu.settings') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-list class="pa-2">
+            <v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-earth</v-icon>
+              </v-list-item-icon>
+
+              <v-select v-model="$i18n.locale" :items="langs" item-text="name" item-value="lang"></v-select>
+            </v-list-item>
+            <v-list-item @click="$vuetify.theme.dark = !$vuetify.theme.dark">
+              <v-list-item-icon>
+                <v-icon>mdi-weather-night</v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-content>
+                <v-list-item-title>{{$t('theme.title')}}:&nbsp;{{$vuetify.theme.dark ? $t('theme.dark') : $t('theme.light')}}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </div>
+      </template>
+    </v-navigation-drawer>
+    <v-app-bar v-if="!hide" fixed app :clipped-left="clipped" class="accent">
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Pegasus</v-toolbar-title>
     </v-app-bar>
-
     <v-content>
-      <HelloWorld/>
+      <v-container fluid>
+        <v-fade-transition mode="out-in">
+          <router-view></router-view>
+        </v-fade-transition>
+      </v-container>
     </v-content>
   </v-app>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld';
+import locales from './locales.json';
 
 export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      langs: locales.langs,
+      drawer: true,
+      clipped: true
+    };
   },
-
-  data: () => ({
-    //
-  }),
+  created() {
+    this.$vuetify.theme.dark = true;
+  },
+  computed: {
+    hide() {
+      return this.$route.path === "/login" || this.$route.path === "/register";
+    }
+  }
 };
 </script>

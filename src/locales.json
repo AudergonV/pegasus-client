@@ -1,0 +1,42 @@
+{
+    "messages": {
+        "fr": {
+            "menu": {
+                "home": "Accueil",
+                "profile": "Profil",
+                "settings": "Paramètres"
+            },
+            "theme": {
+                "title": "Thème",
+                "dark": "Sombre",
+                "light": "Clair"
+            },
+            "login": {
+                "discord": "Se connecter avec Discord",
+                "login": "Connexion"
+            }
+        },
+        "en": {
+            "menu": {
+                "home": "Home",
+                "profile": "Profile",
+                "settings": "Settings"
+            },
+            "theme": {
+                "title": "Theme",
+                "dark": "Dark",
+                "light": "Light"
+            }
+        }
+    },
+    "langs": [
+        {
+            "lang": "fr",
+            "name": "Français"
+        },
+        {
+            "lang": "en",
+            "name": "English"
+        }
+    ]
+}
